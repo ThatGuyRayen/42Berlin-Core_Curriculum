@@ -1,38 +1,47 @@
-    int ft_atoi(char *s) {
-        int	i;
-        int	result;
-        int	sign;
-        int	counter;
+#include "libft.h"
 
-	i = 0;
+long long	parser(const char *s, int sign)
+{
+	long long	result;
+
 	result = 0;
-	sign = 1;
-	counter = 0;
-        while (s[i] == ' ')
-            i++;
-        while (s[i] == '+' || s[i] =='-')
-        {
-            if (s[i] == '-')
-            {
-                sign = -1;
-            }
-            counter++;
-            i++;
-        }
-        while (s[i] >= '0' && s[i] <= '9')
-        {
-            result = result * 10 + (s[i] - '0');
-            i++;
-        }
-        if (counter >=2)
-            return (0);
-        return(int)(result * sign);
-    }
+	while (*s && ft_isdigit(*s))
+	{
+		if (result > (LLONG_MAX - (*s - '0')) / 10)
+		{
+			if (sign > 0)
+				return (INT_MAX);
+			else
+				return (INT_MIN);
+		}
+		result = result * 10 + (*s - '0');
+		s++;
+	}
+	return (result);
+}
 
+int	ft_atoi(const char *s)
+{
+	int				sign;
+
+	if (!s)
+		return (0);
+	sign = 1;
+	while (*s && ft_iswhitespace(*s))
+		s++;
+	if (*s == '+' || *s == '-')
+	{
+		if (*s == '-')
+			sign = -1;
+		s++;
+	}
+	return ((int)(parser(s, sign) * sign));
+}
+/*
 #include <stdio.h>
 int	main (void)
 {
-	char *s = "-+6363";
-	printf("%d\n", ft_atoi(s));
+	printf("%d\n", ft_atoi("--213"));
 	return (0);
 }
+*/
