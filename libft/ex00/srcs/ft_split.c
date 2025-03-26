@@ -1,0 +1,66 @@
+#include "libft.h"
+
+static int	word_count(char const *s, char c)
+{
+	int	count;
+
+	count = 0;
+	while (*s)
+	{
+		if(*s == c)
+			s++;
+		else
+		{
+			count++;
+			while(*s && *s != c)
+				s++;
+		}
+	}
+	return (count);
+}
+
+static int	word_length(char const *s, char c)
+{
+	int	count;
+
+	count = 0;
+	while (s[count] != c && s[count] != '\0')
+		count++;
+	return (count);
+}
+
+static void	free_memory(char **str, int index)
+{
+	while (index >= 0)
+		free(str[index--]);
+	free(str);
+}
+char	**ft_split(char const *s, char c)
+{
+	int	words;
+	int	i;
+	char	**str;
+
+	if (!s || !(str = (char **)malloc(sizeof(char *) * (word_count(s, c) + 1))))
+		return (NULL);
+	words = word_count(s, c);
+       i = 0;
+       while (*s)
+       {
+	       if (*s == c)
+		       s++;
+	       else
+	       {
+		       if (!(str[i] = ft_strnew(word_length(s, c))))
+		       {
+			       free_memory(str, i - 1);
+			       return (NULL);
+		       }
+		       ft_strncpy(str[i], s, word_length(s, c));
+		       s += word_length(s, c);
+		       i++;
+	       }
+       }
+       str[i] = NULL;
+       return (str);
+}
