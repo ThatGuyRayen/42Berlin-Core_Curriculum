@@ -12,10 +12,10 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	if (*tofind == '\0')
 		return ((char *)str);
 	i = 0;
-	while (str[i] != '\0' && i < n)
+	while (str[i] != '\0' && i < len)
 	{
 		j = 0;
-		while (str[i + j] == tofind[j] && tofind[j] != '\0' && (i + j) < n)
+		while (str[i + j] == tofind[j] && tofind[j] != '\0' && (i + j) < len)
 			j++;
 		if (tofind[j] == '\0')
 			return ((char *)&str[i]);

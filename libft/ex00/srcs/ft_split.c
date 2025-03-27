@@ -35,15 +35,32 @@ static void	free_memory(char **str, int index)
 		free(str[index--]);
 	free(str);
 }
+
+char	*ft__strncpy(char *dest,const char *src, unsigned int n)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (src[i] && i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
+}
+
 char	**ft_split(char const *s, char c)
 {
-	int	words;
 	int	i;
 	char	**str;
 
 	if (!s || !(str = (char **)malloc(sizeof(char *) * (word_count(s, c) + 1))))
 		return (NULL);
-	words = word_count(s, c);
        i = 0;
        while (*s)
        {
@@ -56,7 +73,7 @@ char	**ft_split(char const *s, char c)
 			       free_memory(str, i - 1);
 			       return (NULL);
 		       }
-		       ft_strncpy(str[i], s, word_length(s, c));
+		       ft__strncpy(str[i], s, word_length(s, c));
 		       s += word_length(s, c);
 		       i++;
 	       }

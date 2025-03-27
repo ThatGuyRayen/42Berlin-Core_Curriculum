@@ -1,4 +1,4 @@
-void	ft_strcpy(char *dest, char *src)
+void	ft_strcpy(char *dest,const char *src)
 {
 	int	i;
 
