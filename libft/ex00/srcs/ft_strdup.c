@@ -1,30 +1,4 @@
-#include <stdlib.h>
-
-int	ft_strlen(char *str)
-{
-	int	count;
-
-	count = 0;
-	while (*str)
-	{
-		str++;
-		count++;
-	}
-	return (count);
-}
-
-void	ft_strcpy(char *dest, char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-}
+#include "libft.h"
 
 char	*ft_strdup(char *src)
 {

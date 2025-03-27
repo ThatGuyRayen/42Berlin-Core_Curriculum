@@ -1,6 +1,6 @@
 #include "libft.h"
 
-long long	parser(const char *s, int sign)
+static long long	parser(const char *s, int sign)
 {
 	long long	result;
 

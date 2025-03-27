@@ -1,6 +1,6 @@
 #include "libft.h"
 
-int	is_set(char c, char const *set)
+static int	is_set(char c, char const *set)
 {
 	int	i;
 

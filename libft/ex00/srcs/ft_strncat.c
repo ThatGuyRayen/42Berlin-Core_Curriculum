@@ -1,3 +1,5 @@
+#include "libft.h"
+
 char	*ft_strncat(char *dest, char *src, unsigned int nb)
 {
 	unsigned int	i;
