@@ -12,7 +12,7 @@ static int	word_count(char const *s, char c)
 		else
 		{
 			count++;
-			while(*s && *s != c)
+			while (*s && *s != c)
 				s++;
 		}
 	}
