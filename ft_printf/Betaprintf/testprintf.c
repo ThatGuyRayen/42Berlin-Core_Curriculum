@@ -83,7 +83,6 @@ int	my_printf(const char *str, ...)
 int	main ()
 {
 	int	count;
-	count = my_printf("HEllo %s\n", "John");
-	my_printf("The chars written are %d\n", count);
+	count = my_printf("HEllo %d\n", -234135242);
 	return (0);
 }
