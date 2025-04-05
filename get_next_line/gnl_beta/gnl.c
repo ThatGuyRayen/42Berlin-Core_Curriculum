@@ -52,21 +52,28 @@ char *get_next_line(int fd)
 
 int main(void)
 {
-	char	*str;
-	int		fd;
-	char	*path;
-	int		i;
-	
-	fd = open("test.txt", O_RDONLY);
-	i = 0;
-	while(i < 6)
-	{
-		str = get_next_line(1);
-		printf("i:%i\n", i);
-		printf("%s\n", str);
-		free(str);
-		i++;
-	}
-	return (0);
-}
+    char    *str;
+    int     fd;
+    int     i;
 
+    fd = open("test.txt", O_RDONLY);
+    if (fd < 0)
+    {
+        perror("open");
+        return (1);
+    }
+    
+    i = 0;
+    while (i < 6)
+    {
+        str = get_next_line(fd);
+        if (!str)
+            break;
+        printf("i: %i\n", i);
+        printf("%s", str); // no need for \n as get_next_line includes it
+        free(str);
+        i++;
+    }
+    close(fd);
+    return (0);
+}
