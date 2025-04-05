@@ -66,10 +66,12 @@ char	*extract_line(char **buffer)
 	nl_index = ft_str_index(*buffer, '\n');
 	if (nl_index == -1)
 		nl_index = strlen (*buffer);
+
 	line = strndup (*buffer, nl_index + ((*buffer)[nl_index] == '\n')); //copy till \n
 	newstr = strdup (*buffer + nl_index + ((*buffer)[nl_index] == '\n'));
-	free(buffer);
-	if (line[0] == '\0') //nothing to return
+	free(*buffer);
+	*buffer = newstr;
+	if (line[0] == '\0' || !line) //nothing to return
 	{
 		free(line);
 		return (NULL);
@@ -81,46 +83,33 @@ char	*extract_line(char **buffer)
 char	*get_next_line(int fd)
 {
 	int		byte;
-	int		i;
-	int		size;
-	char	c;
-	char	*str_buffer;
-	char	*new_buf;
+	char	*buffer;
+	static char		*str;
+	char	*line;
 
-	size = BUFFER_SIZE;
-	i = 0;
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	str_buffer = (char *) malloc(size + 1);
-	if (!str_buffer)
+	buffer = (char *) malloc((BUFFER_SIZE + 1));
+	if (!buffer)
 		return (NULL);
-	while ((byte = read(fd, &c, 1)) > 0)
+
+	byte = 1;
+	while (ft_str_index(str, '\n') == -1 && byte > 0)
 	{
-		str_buffer[i++] = c;
-		if (c == '\n')
+		byte = read(fd, buffer, BUFFER_SIZE);
+		if (byte <= 0)
 			break ;
-		if (i >= size)
-		{
-			size *= 2;
-			new_buf = realloc(str_buffer, size + 1);
-			if (!new_buf)
-				{
-					free(str_buffer);
-					return (NULL);
-				}
-			str_buffer = new_buf;
-	
-		}
+		buffer[byte] = '\0';
+		str = ft_strjoin(str, buffer);
 	}
-
-	if (i == 0 && byte <= 0)
-	{
-		free(str_buffer);
+	free(buffer);
+	if (!str || str[0] == '\0')
 		return (NULL);
-	}
-	str_buffer[i] = '\0';
-	return (str_buffer);
+
+	line = extract_line(&str);
+	return (line);
 }
+
 
 
 int		main(void)
@@ -145,14 +134,3 @@ int		main(void)
 	close(fd);
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
